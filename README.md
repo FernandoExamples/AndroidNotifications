@@ -1,6 +1,7 @@
 # AndroidNotifications
 Ejemplo de uso de las notificaciones en Android con Java.
 Además se hace uso de la libreria Butterknife para enlazar los View del layout. 
+Se dividio el ejemplo en varias ramas porque son varios los topicos que se abordan. 
 - http://jakewharton.github.io/butterknife/
 - https://github.com/JakeWharton/butterknife
 
