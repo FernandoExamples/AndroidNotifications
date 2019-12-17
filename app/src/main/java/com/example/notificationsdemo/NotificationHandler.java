@@ -22,6 +22,9 @@ public class NotificationHandler extends ContextWrapper {
     public static final String CHANNEL_LOW_ID = "2";
     private final String CHANNEL_LOW_NAME = "LOW CHANNEL";
 
+    private final int GROUP_ID = 1000;
+    private final String GROUP_NAME = "GROUPPING NOTIFICATION";
+
     public NotificationHandler(Context context) {
         super(context);
         createChannels();
@@ -83,7 +86,8 @@ public class NotificationHandler extends ContextWrapper {
                     .setContentText(message)
                     .addAction(action)
                     .setSmallIcon(android.R.drawable.stat_notify_chat)
-                    .setAutoCancel(true);
+                    .setAutoCancel(true)
+                    .setGroup(GROUP_NAME);
         }
 
         return null;
@@ -100,5 +104,23 @@ public class NotificationHandler extends ContextWrapper {
                 .addAction(action)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setAutoCancel(true);
+    }
+
+    /**
+     * Este metodo crea una Notificacion "Especial" que es un Summary de todas las notificaciones
+     * @param isImportance
+     */
+    public void publishNotificationSummaryGroup(boolean isImportance) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            String channelID = isImportance ? CHANNEL_HIGH_ID : CHANNEL_LOW_ID;
+            Notification summaryNotification = new Notification.Builder(getApplicationContext(), channelID)
+                    .setSmallIcon(android.R.drawable.stat_notify_call_mute)
+                    .setGroup(GROUP_NAME)
+                    .setGroupSummary(true)
+                    .build();
+
+            getManeger().notify(GROUP_ID, summaryNotification);
+        }
     }
 }

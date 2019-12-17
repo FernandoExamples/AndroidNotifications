@@ -1,7 +1,5 @@
 package com.example.notificationsdemo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -11,7 +9,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     Switch swImportance;
 
     NotificationHandler notificationHandler;
+
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
             PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Notification.Builder builder = notificationHandler.createNotification(title, message, highImportance, pIntent);
-            notificationHandler.getManeger().notify(1, builder.build());
+            notificationHandler.getManeger().notify(++counter, builder.build());
+            notificationHandler.publishNotificationSummaryGroup(highImportance);
         }
     }
 }
