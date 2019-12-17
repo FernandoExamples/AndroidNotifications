@@ -3,6 +3,7 @@ package com.example.notificationsdemo;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
@@ -57,22 +58,25 @@ public class NotificationHandler extends ContextWrapper {
         }
     }
 
-    public Notification.Builder createNotification(String title, String message, boolean isHighImportance) {
+    public Notification.Builder createNotification(String title, String message, boolean isHighImportance, PendingIntent contentIntent) {
         if (Build.VERSION.SDK_INT >= 26) { //API OREO DESDE DONDE SE IMPLEMENTARON LOS CANALES DE NOTIFICACION
             if (isHighImportance)
-                return createNotificationWithChannels(title, message, CHANNEL_HIGH_ID);
+                return createNotificationWithChannels(title, message, CHANNEL_HIGH_ID, contentIntent);
             else
-                return createNotificationWithChannels(title, message, CHANNEL_LOW_ID);
+                return createNotificationWithChannels(title, message, CHANNEL_LOW_ID, contentIntent);
         } else
-            return createNotificationWithouthChannels(title, message);
+            return createNotificationWithouthChannels(title, message, contentIntent);
     }
 
-    private Notification.Builder createNotificationWithChannels(String title, String message, String channelID) {
+    private Notification.Builder createNotificationWithChannels(String title, String message, String channelID,
+                                                                PendingIntent contentIntent) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             return new Notification.Builder(getApplicationContext(), channelID)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setContentIntent(contentIntent)
                     .setSmallIcon(android.R.drawable.stat_notify_chat)
                     .setAutoCancel(true);
         }
@@ -80,10 +84,11 @@ public class NotificationHandler extends ContextWrapper {
         return null;
     }
 
-    private Notification.Builder createNotificationWithouthChannels(String title, String message) {
+    private Notification.Builder createNotificationWithouthChannels(String title, String message, PendingIntent contentIntent) {
         return new Notification.Builder(getApplicationContext())
                 .setContentTitle(title)
                 .setContentText(message)
+                .setContentIntent(contentIntent)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setAutoCancel(true);
     }

@@ -3,6 +3,8 @@ package com.example.notificationsdemo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -63,7 +65,14 @@ public class MainActivity extends AppCompatActivity {
         String message = etMessage.getText().toString();
 
         if(!TextUtils.isEmpty(title) && !TextUtils.isEmpty(message)){
-            Notification.Builder builder = notificationHandler.createNotification(title, message, highImportance);
+
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra("title", title);
+            intent.putExtra("message", message);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Notification.Builder builder = notificationHandler.createNotification(title, message, highImportance, pIntent);
             notificationHandler.getManeger().notify(1, builder.build());
         }
     }
