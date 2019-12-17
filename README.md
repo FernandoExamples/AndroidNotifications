@@ -17,3 +17,7 @@ que muestra detalles.
 
 En la rama Actions se hace lo mismo que en PendingIntent pero mediante un boton (Action) en la notificacion,
 ya no pinchando en ella. 
+
+### GroupNotifications
+
+En esta rama, ademas de lo anterior, se agrupan notificaciones para que al lanzar distintas notificaciones no aparezcan sueltas,sino mas bien agrupadas todas en una Notificacion Summary, que es un comportamiento estandar en las aplicaciones. 
