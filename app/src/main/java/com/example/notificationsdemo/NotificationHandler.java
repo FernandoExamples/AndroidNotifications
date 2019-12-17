@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -73,10 +74,14 @@ public class NotificationHandler extends ContextWrapper {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
+            Notification.Action action = new Notification.Action.Builder(
+                    Icon.createWithResource(this, android.R.drawable.ic_menu_send), "See details", contentIntent).build();
+
+
             return new Notification.Builder(getApplicationContext(), channelID)
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setContentIntent(contentIntent)
+                    .addAction(action)
                     .setSmallIcon(android.R.drawable.stat_notify_chat)
                     .setAutoCancel(true);
         }
@@ -85,10 +90,14 @@ public class NotificationHandler extends ContextWrapper {
     }
 
     private Notification.Builder createNotificationWithouthChannels(String title, String message, PendingIntent contentIntent) {
+
+        Notification.Action action = new Notification.Action.Builder(
+                android.R.drawable.ic_menu_send, "See details", contentIntent).build();
+
         return new Notification.Builder(getApplicationContext())
                 .setContentTitle(title)
                 .setContentText(message)
-                .setContentIntent(contentIntent)
+                .addAction(action)
                 .setSmallIcon(android.R.drawable.stat_notify_chat)
                 .setAutoCancel(true);
     }
